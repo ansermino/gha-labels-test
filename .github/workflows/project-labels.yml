@@ -15,9 +15,7 @@ jobs:
       - name: Update project fields based on labels
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          gh auth login --with-token <<< "${GITHUB_TOKEN}"
-          
+        run: |          
           ISSUE_NUMBER=${{ github.event.issue.number }}
           REPO=${{ github.repository }}
           
