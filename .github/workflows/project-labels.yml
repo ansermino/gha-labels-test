@@ -1,0 +1,54 @@
+name: Assign Project Fields Based on Labels
+
+on:
+  issues:
+    types: [labeled, unlabeled, opened]
+
+jobs:
+  update-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+          sudo apt-add-repository https://cli.github.com/packages
+          sudo apt update
+          sudo apt install gh -y
+
+      - name: Update project fields based on labels
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh auth login --with-token <<< "${GITHUB_TOKEN}"
+          
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          REPO=${{ github.repository }}
+          
+          LABELS=$(gh issue view $ISSUE_NUMBER --repo $REPO --json labels --jq '.labels[].name')
+          
+          # Define your label to project field mappings
+          if echo "$LABELS" | grep -q "p0"; then
+            gh api graphql -f query='
+              mutation {
+                updateProjectV2ItemFieldValue(
+                  input: {
+                    projectId: "PVT_kwHOANgikM4Alq7A", 
+                    itemId: "1", 
+                    fieldId: "PVTSSF_lAHOANgikM4Alq7AzgdsEGE", 
+                    value: {singleSelectOptionId: "7942a8e8"}}
+                ) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }'
+          fi
