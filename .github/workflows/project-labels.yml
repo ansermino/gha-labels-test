@@ -7,11 +7,11 @@ on:
 jobs:
   update-project:
     runs-on: ubuntu-latest
-    permissions:
+    permissions: write-all
       # todo: this can be read
-      issues: write
-      repository-projects: write
-      contents: read
+#      issues: write
+#      repository-projects: write
+#      contents: read
 
     steps:
       - name: Checkout repository
