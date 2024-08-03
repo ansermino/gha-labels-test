@@ -20,7 +20,9 @@ jobs:
           REPO=${{ github.repository }}
           
           LABELS=$(gh issue view $ISSUE_NUMBER --repo $REPO --json labels --jq '.labels[].name')
-          ISSUE_ID=$(gh issue view 2 --json id --repo ansermino/gha-labels-test --jq '.id')
+          echo $LABELS
+          ISSUE_ID=$(gh issue view $ISSUE_NUMBER --json id --repo ansermino/gha-labels-test --jq '.id')
+          echo $ISSUE_ID
           
           # Define your label to project field mappings
           if echo "$LABELS" | grep -q "p0"; then
