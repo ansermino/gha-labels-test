@@ -7,6 +7,10 @@ on:
 jobs:
   update-project:
     runs-on: ubuntu-latest
+    permissions:
+      # todo: this can be read
+      issues: write
+      repository-projects: write
 
     steps:
       - name: Checkout repository
