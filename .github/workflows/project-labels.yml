@@ -32,19 +32,18 @@ jobs:
           
           # Define your label to project field mappings
           if echo "$LABELS" | grep -q "p0"; then
-            gh api graphql -f query="
-              mutation {
+              gh api graphql -f query="mutation {
                 updateProjectV2ItemFieldValue(
                   input: {
-                    projectId: "PVT_kwHOANgikM4Alq7A", 
-                    itemId: $ISSUE_ID, 
-                    fieldId: "PVTSSF_lAHOANgikM4Alq7AzgdsEGE", 
-                    value: {singleSelectOptionId: "7942a8e8"}
-                }
-                ) {
-                  projectV2Item {
-                    id
+                    projectId: \"PVT_kwHOANgikM4Alq7A\",
+                    itemId: \"$ISSUE_ID\",
+                    fieldId: \"PVTSSF_lAHOANgikM4Alq7AzgdsEGE\",
+                    value: {singleSelectOptionId: \"7942a8e8\"}
                   }
+                ){
+                projectV2Item {
+                  id
+                }
                 }
               }"
           fi
