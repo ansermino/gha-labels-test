@@ -20,6 +20,7 @@ jobs:
           REPO=${{ github.repository }}
           
           LABELS=$(gh issue view $ISSUE_NUMBER --repo $REPO --json labels --jq '.labels[].name')
+          ISSUE_ID=$(gh issue view 2 --json id --repo ansermino/gha-labels-test --jq '.id')
           
           # Define your label to project field mappings
           if echo "$LABELS" | grep -q "p0"; then
@@ -28,7 +29,7 @@ jobs:
                 updateProjectV2ItemFieldValue(
                   input: {
                     projectId: "PVT_kwHOANgikM4Alq7A", 
-                    itemId: "1", 
+                    itemId: $ISSUE_ID, 
                     fieldId: "PVTSSF_lAHOANgikM4Alq7AzgdsEGE", 
                     value: {singleSelectOptionId: "7942a8e8"}}
                 ) {
