@@ -13,8 +13,8 @@ jobs:
       repository-projects: write
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+#      - name: Checkout repository
+#        uses: actions/checkout@v2
 
       - name: Update project fields based on labels
         env:
